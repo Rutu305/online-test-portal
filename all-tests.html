@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Tests</title>
+  <link rel="stylesheet" href="all-tests.css" />
+
+  <script type="module" src="all-tests.js" defer></script>
+</head>
+<body>
+    <a href="admin.html" class="back-button">← Back to Admin Panel</a>
+<h1>All Tests Overview</h1>
+
+  <main class="main-content">
+    
+    <div id="testList" class="dashboard-cards"></div>
+
+    <div id="participantModal" class="modal-overlay" style="display: none;">
+      <div class="modal">
+        <span class="close-btn" onclick="document.getElementById('participantModal').style.display='none'">&times;</span>
+        <h2 id="modalTitle">Participants</h2>
+        <div id="participantList"></div>
+      </div>
+    </div>
+  </main>
+  
+</body>
+</html>

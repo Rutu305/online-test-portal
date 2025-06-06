@@ -1,0 +1,207 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+
+.hamburger {
+  font-size: 28px;
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 220px;
+  background: #058ea3;
+  color: white;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.sidebar.hide {
+  transform: translateX(-100%);
+}
+
+.sidebar .logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.nav-links a, .bottom-links a, .nav-links button {
+  display: block;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: none;
+  border: none;
+  color: #dcdde1;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.nav-links a:hover,
+.bottom-links a:hover,
+.nav-links button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.main-content {
+  margin-left: 240px;
+  padding: 40px 30px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.hide ~ .main-content {
+  margin-left: 0;
+}
+
+.main-content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #2f3542;
+}
+
+.dashboard-widgets {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.widget {
+  flex: 1 1 30%;
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.widget h2 {
+  font-size: 18px;
+  color: #57606f;
+  margin-bottom: 10px;
+}
+
+.widget p {
+  font-size: 36px;
+  font-weight: bold;
+  color: #1e90ff;
+}
+
+.widget:hover {
+  transform: translateY(-5px);
+}
+
+.bottom-links {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+}
+.widget canvas {
+  max-width: 250px;
+  max-height: 250px;
+  margin: auto;
+  display: block;
+}
+
+.dashboard-widgets {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 20px;
+}
+
+.widget {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.dashboard-counters {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.dashboard-counters {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 40px;
+  padding: 0 20px;
+}
+
+.counter-card {
+  background: linear-gradient(135deg, rgba(79,172,254,0.8), rgba(0,242,254,0.8));
+  backdrop-filter: blur(8px);
+  padding: 30px 40px;
+  border-radius: 20px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+  min-width: 220px;
+  flex: 1;
+  max-width: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.counter-card::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.counter-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+}
+
+.counter-card h2 {
+  font-size: 3.2em;
+  margin: 0;
+  z-index: 1;
+  position: relative;
+}
+
+.counter-card p {
+  font-size: 1.2em;
+  margin-top: 10px;
+  opacity: 0.95;
+  font-weight: 500;
+  z-index: 1;
+  position: relative;
+}
+h1 {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+

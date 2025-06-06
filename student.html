@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="student.css" />
+</head>
+<body>
+  <!-- Hamburger Icon -->
+  
+
+  <div class="hamburger" onclick="toggleSidebar()">☰</div>
+
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <br>
+      <br>
+      <br>
+      <div class="nav-links">
+        <a href="take-test.html" onclick="navigateTo('tests')">📄 My Tests</a>
+        <a href="#" onclick="navigateTo('results')">📊 Results Database</a>
+        <a href="#" onclick="navigateTo('account')">👤 My Account</a>
+        
+
+        <a href="student.html" onclick="navigateTo('home')">🏠 Home</a>
+      </div>
+      <div class="bottom-links">
+        <a href="#" onclick="navigateTo('help')">❓ Help</a>
+        <a href="login.html" onclick="signOut()">🔓 Sign Out</a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+      <h2>My Tests</h2>
+      <div id="test-list">
+        <!-- Test cards will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK & Script -->
+  <script type="module" src="student.js"></script>
+
+  <!-- Toggle Sidebar Script -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      const content = document.getElementById("main-content");
+      sidebar.classList.toggle("collapsed");
+      content.classList.toggle("expanded");
+    }
+  </script>
+  
+
+</body>
+</html>

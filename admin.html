@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css" />
+  <script type="module" src="admin.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
+
+</head>
+<body>
+  <!-- Hamburger Menu -->
+  <div class="hamburger" id="hamburger">&#9776;</div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar hide" id="sidebar">
+    <div class="logo">🎓 Test Portal</div>
+    <nav class="nav-links">
+      <a href="#" id="dashboardBtn">🏠 Dashboard</a>
+      <a href="test-form.html" id="createTestBtn">📋 Create Test</a>
+      <a href="all-tests.html" id="allTestsBtn">📚 All Tests</a>
+      <a href="login.html" id="signOutBtn">🔓 Sign Out</a>
+    </nav>
+    <div class="bottom-links">
+      <a href="#">💬 Feedback</a>
+      <a href="#">📩 Messages</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+   <h1 >    Admin panel</h1>
+<section class="dashboard-counters">
+  <div class="counter-card">
+    <h2 id="testCount">0</h2>
+    <p>Total Tests</p>
+  </div>
+  <div class="counter-card">
+    <h2 id="studentCount">0</h2>
+    <p>Total Students</p>
+  </div>
+  <div class="counter-card">
+    <h2 id="submissionCount">0</h2>
+    <p>Total Submissions</p>
+  </div>
+</section>
+
+    
+
+  <script>
+    document.getElementById("hamburger").addEventListener("click", () => {
+      document.getElementById("sidebar").classList.toggle("hide");
+    });
+  </script>
+</body>
+</html>

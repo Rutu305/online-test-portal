@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Test</title>
+      <style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #e3f2fd, #ffffff);
+    margin: 0;
+    padding: 40px;
+    color: #333;
+  }
+
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 28px;
+  }
+
+  form {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+
+  input {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: 0.2s;
+  }
+
+  input:focus {
+    border-color: #1976d2;
+    outline: none;
+    background-color: #f0faff;
+  }
+
+  .question-block {
+    background: #f5f8fa;
+    border-left: 5px solid #1976d2;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  }
+
+  .question-block h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #1976d2;
+    font-weight: 600;
+  }
+
+  button {
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 10px;
+  }
+
+  #addQuestionBtn {
+    background-color: #4caf50;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  #addQuestionBtn:hover {
+    background-color: #3e8e41;
+  }
+
+  button[type="submit"] {
+    background-color: #1976d2;
+    color: white;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0d47a1;
+  }
+
+  @media (max-width: 600px) {
+    form {
+      padding: 20px;
+    }
+
+    h2 {
+      font-size: 22px;
+    }
+
+    input, button {
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+  <h2>Create New Test</h2>
+  <form id="createTestForm">
+    <input type="text" id="testTitle" placeholder="Test Title" required />
+    <input type="number" id="testDuration" placeholder="Duration (minutes)" required />
+    <input type="number" id="totalQuestions" placeholder="Total Questions" required />
+    
+    <div id="questionsContainer"></div>
+
+    <button type="button" id="addQuestionBtn">Add Question</button>
+    <button type="submit">Save Test</button>
+  </form>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { firebaseConfig } from './firebase-config.js';
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const form = document.getElementById('createTestForm');
+  const questionsContainer = document.getElementById('questionsContainer');
+  const addQuestionBtn = document.getElementById('addQuestionBtn');
+
+  function addQuestion() {
+    const index = questionsContainer.children.length + 1;
+    const block = document.createElement("div");
+    block.className = "question-block";
+    block.innerHTML = `
+      <h4>Question ${index}</h4>
+      <input type="text" class="questionText" placeholder="Enter Question" required />
+      <input type="text" class="option1" placeholder="Option 1" required />
+      <input type="text" class="option2" placeholder="Option 2" required />
+      <input type="text" class="option3" placeholder="Option 3" required />
+      <input type="text" class="option4" placeholder="Option 4" required />
+      <input type="number" class="correctAnswer" placeholder="Correct Option Number (1-4)" min="1" max="4" required />
+    `;
+    questionsContainer.appendChild(block);
+  }
+
+  addQuestionBtn.addEventListener("click", addQuestion);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById('testTitle').value.trim();
+    const duration = parseInt(document.getElementById('testDuration').value);
+    const totalQuestions = parseInt(document.getElementById('totalQuestions').value);
+
+    const questionBlocks = document.querySelectorAll('.question-block');
+    const questions = [];
+
+    questionBlocks.forEach(block => {
+      const questionText = block.querySelector('.questionText').value.trim();
+      const options = [
+        block.querySelector('.option1').value.trim(),
+        block.querySelector('.option2').value.trim(),
+        block.querySelector('.option3').value.trim(),
+        block.querySelector('.option4').value.trim()
+      ];
+      const correctAnswerIndex = parseInt(block.querySelector('.correctAnswer').value) - 1;
+      questions.push({
+        question: questionText,
+        options,
+        correct: options[correctAnswerIndex]
+      });
+    });
+
+    try {
+      const testDocRef = await addDoc(collection(db, 'tests'), {
+        title,
+        duration,
+        totalQuestions,
+        questions // Save questions directly in the main doc
+      });
+
+      alert("Test and questions saved successfully!");
+      form.reset();
+      questionsContainer.innerHTML = "";
+    } catch (error) {
+      console.error("Error saving test:", error);
+      alert("Error saving test. Check the console.");
+    }
+  });
+</script>
+
+</body>
+</html>

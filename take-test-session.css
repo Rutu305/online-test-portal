@@ -1,0 +1,91 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #e3f2fd, #ffffff);
+  margin: 0;
+  padding: 0;
+}
+
+.test-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+#test-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.question-card {
+  margin-bottom: 25px;
+}
+
+.question-card h2 {
+  font-size: 1.4rem;
+  color: #444;
+}
+
+.options label {
+  display: block;
+  background: #f7f9fc;
+  border: 2px solid transparent;
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.options input[type="radio"] {
+  display: none;
+}
+
+.options label:hover {
+  background-color: #dcefff;
+  border-color: #90caf9;
+}
+
+.options input[type="radio"]:checked + label {
+  background-color: #bbdefb;
+  border-color: #42a5f5;
+  color: #0d47a1;
+  font-weight: bold;
+}
+
+#navigation {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#navigation button {
+  padding: 10px 20px;
+  margin: 10px;
+  background: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#navigation button:hover {
+  background: #1565c0;
+}
+.result-box {
+  padding: 30px;
+  background: #e6fff2;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #2e7d32;
+  font-size: 18px;
+  max-width: 600px;
+  margin: 40px auto;
+  transition: all 0.4s ease;
+}

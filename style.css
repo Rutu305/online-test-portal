@@ -1,0 +1,244 @@
+/* General Page Styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+}
+
+/* Navbar Styling */
+/* Navbar Styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #003c3c;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo Styling */
+.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #00ffcc;
+  letter-spacing: 1px;
+}
+
+/* Nav Links Styling */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-links li:hover {
+  color: #00ffcc;
+}
+
+/* Button Styling */
+.navbar button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #00ffcc;
+  color: #003c3c;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar button:hover {
+  background-color: #00e6b8;
+  transform: scale(1.05);
+}
+
+/* Full screen welcome */
+.welcome {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.welcome .content {
+  text-align: center;
+  animation: slideIn 1s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome h1 {
+  font-size: 3rem;
+  color: #003c3c;
+  margin-bottom: 1rem;
+}
+
+.welcome p {
+  font-size: 1.4rem;
+  color: #444;
+  margin-bottom: 2rem;
+}
+
+.get-started {
+  background-color: #00c9a7;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 5px 15px rgba(0, 201, 167, 0.3);
+}
+
+.get-started:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 201, 167, 0.5);
+}
+
+/* Fade animation for welcome */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Login Page Styling */
+.login-container {
+  max-width: 400px;
+  margin: 100px auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 1.5rem;
+  color: #003c3c;
+}
+
+.login-container input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.login-container button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #003c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #005a5a;
+}
+
+.role-select {
+  margin-bottom: 1rem;
+}
+
+.role-select button {
+  margin: 0 10px;
+  padding: 10px 15px;
+  background-color: #00ffcc;
+  color: #003c3c;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.role-select button:hover {
+  transform: scale(1.05);
+}
+/* Login Form Styling */
+.login-container {
+  max-width: 400px;
+  margin: 100px auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 1.5rem;
+  color: #003c3c;
+}
+
+.login-container input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.login-container button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #003c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #005a5a;
+}
+
+.role-select {
+  margin-bottom: 1rem;
+}
+
+.role-select button {
+  margin: 0 10px;
+  padding: 10px 15px;
+  background-color: #00ffcc;
+  color: #069393;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.role-select button:hover {
+  transform: scale(1.05);
+}
+
+#toggleMode {
+  margin-top: 10px;
+}
+
