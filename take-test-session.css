@@ -89,3 +89,32 @@ body {
   margin: 40px auto;
   transition: all 0.4s ease;
 }
+.result-box {
+  text-align: center;
+  padding: 30px;
+  background: #f2f8ff;
+  border-radius: 12px;
+  border: 1px solid #cce5ff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.result-box h2 {
+  color: #2b6cb0;
+  font-size: 24px;
+}
+
+.result-box p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+.timer-box {
+  font-size: 18px;
+  font-weight: bold;
+  color: #e74c3c;
+  margin: 10px;
+  text-align: center;
+}
+.save-status {
+  margin-top: 10px;
+  font-size: 14px;
+}

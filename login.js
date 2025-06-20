@@ -1,5 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
@@ -38,5 +40,25 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   } catch (error) {
     console.error("Login Error:", error.message);
     alert("Invalid credentials or user not found.");
+  }
+});
+
+document.getElementById("showReset").addEventListener("click", () => {
+  document.getElementById("resetSection").style.display = "block";
+});
+
+
+document.getElementById("resetBtn").addEventListener("click", async () => {
+  const resetEmail = document.getElementById("resetEmail").value.trim();
+  const resetMsg = document.getElementById("resetMsg");
+
+  try {
+    await sendPasswordResetEmail(auth, resetEmail);
+    resetMsg.textContent = "If this email is registered, a reset link has been sent.";
+    resetMsg.style.color = "green";
+  } catch (error) {
+    console.error("🔥 FULL ERROR:", error);
+    resetMsg.textContent = `Firebase error: ${error.code} - ${error.message}`;
+    resetMsg.style.color = "red";
   }
 });

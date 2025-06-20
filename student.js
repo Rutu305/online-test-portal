@@ -1,15 +1,137 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getFirestore, collection, getDocs, doc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getAuth, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { firebaseConfig } from './firebase-config.js';
-import { getDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 // Firebase Init
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+// Realtime Dashboard Stats Function
+async function renderStudentStats() {
+  const content = document.getElementById("main-content");
+  const user = auth.currentUser;
+
+  if (!user) {
+    content.innerHTML = "<p>Please log in.</p>";
+    return;
+  }
+
+  try {
+    const [testsSnap, resultsSnap] = await Promise.all([
+      getDocs(collection(db, "tests")),
+      getDocs(collection(db, "results"))
+    ]);
+
+    const totalTests = testsSnap.size;
+    let completedTests = 0;
+    let totalScore = 0;
+    let scoreCount = 0;
+    let recent = [];
+
+    resultsSnap.forEach(doc => {
+      const data = doc.data();
+      if (data.uid === user.uid) {
+        completedTests++;
+        totalScore += parseFloat(data.score || 0);
+        scoreCount++;
+        recent.push(data);
+      }
+    });
+
+    const averageScore = scoreCount ? (totalScore / scoreCount).toFixed(2) : 0;
+
+    // Sort recent activity
+    recent.sort((a, b) => (b.takenAt?.seconds || 0) - (a.takenAt?.seconds || 0));
+    const recentHTML = recent.slice(0, 3).map(r => `
+      <li>📝 ${r.testTitle || "Untitled"} - <strong>${r.score || 0}%</strong> on ${r.takenAt ? new Date(r.takenAt.seconds * 1000).toLocaleDateString() : "N/A"}</li>
+    `).join('');
+
+    content.innerHTML = `
+      <h2 class="dashboard-title">🎓 Welcome to Your Dashboard</h2>
+
+      <div class="chart-container">
+        <canvas id="testsChart" width="300" height="300"></canvas>
+        <canvas id="scoreChart" width="300" height="300"></canvas>
+      </div>
+
+      <div class="recent-activity">
+        <h3>📌 Recent Activity</h3>
+        <ul>${recentHTML || "<li>No recent activity.</li>"}</ul>
+      </div>
+
+      <div class="quote">
+        <blockquote>“Success is the sum of small efforts, repeated day in and day out.”</blockquote>
+      </div>
+
+      <div class="actions">
+        <a href="take-test.html"><button>🚀 Take New Test</button></a>
+        <button onclick="navigateTo('results')">📊 View Results</button>
+      </div>
+    `;
+
+    // Chart: Completed vs Remaining Tests
+    new Chart(document.getElementById("testsChart"), {
+      type: 'doughnut',
+      data: {
+        labels: ["Completed", "Remaining"],
+        datasets: [{
+          label: "Test Completion",
+          data: [completedTests, totalTests - completedTests],
+          backgroundColor: ["#4CAF50", "#FFCDD2"]
+        }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "📘 Test Completion"
+          },
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        }
+      }
+    });
+
+    // Chart: Average Score
+    new Chart(document.getElementById("scoreChart"), {
+      type: 'doughnut',
+      data: {
+        labels: ["Score", "Remaining"],
+        datasets: [{
+          label: "Average Score",
+          data: [averageScore, 100 - averageScore],
+          backgroundColor: ["#2196F3", "#E0E0E0"]
+        }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "📊 Avg. Score"
+          },
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error("Error fetching stats:", error);
+    content.innerHTML = "<p>Error loading dashboard stats.</p>";
+  }
+}
+
+// Fetch Tests
 async function fetchTestsFromFirebase() {
   const content = document.getElementById("main-content");
   content.innerHTML = "<h2>Loading tests...</h2>";
@@ -17,9 +139,7 @@ async function fetchTestsFromFirebase() {
   try {
     const querySnapshot = await getDocs(collection(db, "tests"));
     const tests = [];
-    querySnapshot.forEach((doc) => {
-      tests.push(doc.data());
-    });
+    querySnapshot.forEach(doc => tests.push(doc.data()));
     renderTests(tests);
   } catch (error) {
     content.innerHTML = "<p>Error loading tests.</p>";
@@ -46,102 +166,33 @@ function renderTests(tests) {
   });
 }
 
-async function renderStudentStats(data) {
-  const content = document.getElementById("main-content");
-
-  let recentHTML = "<p>No recent activity found.</p>";
-
-  const user = auth.currentUser;
-  if (user) {
-    try {
-      const resultsSnapshot = await getDocs(collection(db, "results"));
-      let userResults = [];
-
-      resultsSnapshot.forEach(doc => {
-        const result = doc.data();
-        if (result.uid === user.uid) {
-          userResults.push(result);
-        }
-      });
-
-      userResults.sort((a, b) => b.date?.seconds - a.date?.seconds);
-      const recent = userResults.slice(0, 3);
-
-      if (recent.length > 0) {
-        recentHTML = "<ul class='recent-activity'>" + recent.map(r => `
-          <li>📘 ${r.testTitle || "Untitled"} - <strong>${r.score || 0}%</strong> on ${r.date ? new Date(r.date.seconds * 1000).toLocaleDateString() : "N/A"}</li>
-        `).join('') + "</ul>";
-      }
-
-    } catch (err) {
-      console.error("Failed to fetch recent activity:", err);
-    }
-  }
-
-  content.innerHTML = `
-    <h2 style="text-align:center;">Welcome to Your Dashboard 👋</h2>
-
-    <div class="stats-grid">
-      <div class="stat-card tests"><h2>${data.totalTests}</h2><p>Total Tests</p></div>
-      <div class="stat-card score"><h2>${data.averageScore}%</h2><p>Average Score</p></div>
-      <div class="stat-card completed"><h2>${data.completedTests}</h2><p>Completed Tests</p></div>
-    </div>
-
-    <div class="home-extras">
-      <h3>📈 Recent Activity</h3>
-      ${recentHTML}
-
-      <blockquote class="quote">
-        “The beautiful thing about learning is nobody can take it away from you.” — B.B. King
-      </blockquote>
-
-      <div class="action-buttons">
-        <button onclick="navigateTo('tests')">📄 Take a Test</button>
-        <button onclick="navigateTo('results')">📊 View Results</button>
-      </div>
-    </div>
-  `;
-}
-
-
-
+// Navigation Logic
 function navigateTo(section) {
   switch (section) {
+    case 'home':
+      renderStudentStats();
+      break;
     case 'tests':
       fetchTestsFromFirebase();
       break;
     case 'results':
-  renderResultsDatabase();
-  break;
-
-  case 'account':
-  const currentUser = auth.currentUser;
-  if (currentUser) {
-    const docRef = doc(db, "users", currentUser.uid);
-    getDoc(docRef).then((docSnap) => {
-      if (docSnap.exists()) {
-        renderStudentAccount(docSnap.data());
-      } else {
-        document.getElementById("main-content").innerHTML = "<p>Account data not found.</p>";
+      renderResultsDatabase();
+      break;
+    case 'account':
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        const docRef = doc(db, "users", currentUser.uid);
+        getDoc(docRef).then(docSnap => {
+          if (docSnap.exists()) {
+            renderStudentAccount(docSnap.data());
+          } else {
+            document.getElementById("main-content").innerHTML = "<p>Account data not found.</p>";
+          }
+        }).catch((error) => {
+          document.getElementById("main-content").innerHTML = "<p>Error loading account info.</p>";
+          console.error("Account fetch error:", error);
+        });
       }
-    }).catch((error) => {
-      document.getElementById("main-content").innerHTML = "<p>Error loading account info.</p>";
-      console.error("Account fetch error:", error);
-    });
-  } else {
-    document.getElementById("main-content").innerHTML = "<p>User not signed in.</p>";
-  }
-  break;
-
-
-
-    case 'home':
-      const stats = {
-        totalTests: 14,
-        averageScore: 78,
-        completedTests: 9
-      };
-      renderStudentStats(stats);
       break;
     case 'help':
       document.getElementById("main-content").innerHTML = "<h2>Help</h2><p>Contact support or FAQs here.</p>";
@@ -150,6 +201,7 @@ function navigateTo(section) {
 }
 window.navigateTo = navigateTo;
 
+// Sign Out
 function signOutUser() {
   signOut(auth)
     .then(() => {
@@ -161,18 +213,9 @@ function signOutUser() {
       alert("Error signing out. Try again.");
     });
 }
+window.signOutUser = signOutUser;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const hash = window.location.hash;
-  if (hash === "#home") {
-    navigateTo("home");
-  } else if (hash === "#tests") {
-    navigateTo("tests");
-  } else {
-    navigateTo("home"); // Default
-  }
-});
-
+// Account Page
 function renderStudentAccount(userData) {
   const content = document.getElementById("main-content");
   const timestamp = userData.createdAt;
@@ -193,14 +236,16 @@ function renderStudentAccount(userData) {
   `;
 }
 
- 
-
+// Results Database Page
 async function renderResultsDatabase() {
   const content = document.getElementById("main-content");
   content.innerHTML = "<h2>Results Database</h2><div class='results-table'><p>Loading results...</p></div>";
 
   const user = auth.currentUser;
-  if (!user) return content.innerHTML = "<p>User not signed in.</p>";
+  if (!user) {
+    content.innerHTML = "<p>User not signed in.</p>";
+    return;
+  }
 
   try {
     const resultsSnapshot = await getDocs(collection(db, "results"));
@@ -232,7 +277,9 @@ async function renderResultsDatabase() {
             <tr>
               <td>${result.testTitle || "N/A"}</td>
               <td>${result.score || 0}%</td>
-              <td>${result.date ? new Date(result.date.seconds * 1000).toLocaleDateString() : "N/A"}</td>
+               <td>${result.takenAt ? new Date(result.takenAt.seconds * 1000).toLocaleDateString() : "N/A"}</td>
+
+
             </tr>
           `).join('')}
         </tbody>
@@ -246,6 +293,22 @@ async function renderResultsDatabase() {
   }
 }
 
-
-window.navigateTo = navigateTo;
-
+// Initial Page Load
+document.addEventListener("DOMContentLoaded", () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const hash = window.location.hash;
+      if (hash === "#tests") {
+        navigateTo("tests");
+      } else if (hash === "#results") {
+        navigateTo("results");
+      } else if (hash === "#account") {
+        navigateTo("account");
+      } else {
+        navigateTo("home");
+      }
+    } else {
+      document.getElementById("main-content").innerHTML = "<p>User not signed in.</p>";
+    }
+  });
+});

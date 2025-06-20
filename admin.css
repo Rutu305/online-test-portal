@@ -1,207 +1,175 @@
-body {
+/* Reset & Base Styling */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Inter', sans-serif;
-  background: #f5f7fa;
-  color: #333;
 }
 
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3e7e9 0%, #e3eeff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Header */
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-top: 30px;
+  color: #2b2b2b;
+}
+
+/* Hamburger Menu */
 .hamburger {
-  font-size: 28px;
-  position: absolute;
-  left: 10px;
-  top: 15px;
+  font-size: 30px;
   cursor: pointer;
+  position: absolute;
+  top: 20px;
+  left: 20px;
   z-index: 1000;
 }
 
+/* Sidebar */
 .sidebar {
+  width: 220px;
+  background: #ffffff;
+  border-right: 1px solid #ddd;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 220px;
-  background: #058ea3;
-  color: white;
-  padding: 20px;
+  bottom: 0;
+  padding: 20px 15px;
   transition: transform 0.3s ease;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
   z-index: 999;
 }
-
 .sidebar.hide {
   transform: translateX(-100%);
 }
-
-.sidebar .logo {
-  font-size: 22px;
+.logo {
   font-weight: 700;
+  font-size: 1.3rem;
   margin-bottom: 30px;
-  text-align: center;
 }
-
-.nav-links a, .bottom-links a, .nav-links button {
+.nav-links a,
+.bottom-links a {
   display: block;
-  padding: 12px;
-  margin-bottom: 10px;
-  background: none;
-  border: none;
-  color: #dcdde1;
+  color: #333;
+  padding: 10px 0;
   text-decoration: none;
   font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
 }
-
 .nav-links a:hover,
-.bottom-links a:hover,
-.nav-links button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
+.bottom-links a:hover {
+  color: #007bff;
+  transform: translateX(5px);
+}
+.bottom-links {
+  margin-top: 40px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
 }
 
-.main-content {
-  margin-left: 240px;
-  padding: 40px 30px;
-  transition: margin-left 0.3s ease;
-}
-
-.sidebar.hide ~ .main-content {
-  margin-left: 0;
-}
-
-.main-content h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  color: #2f3542;
-}
-
-.dashboard-widgets {
+/* Dashboard Counters */
+.dashboard-counters {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  justify-content: center;
+  gap: 30px;
   flex-wrap: wrap;
+  padding: 40px 20px;
+  margin-left: 240px;
 }
-
-.widget {
-  flex: 1 1 30%;
-  background: white;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease;
+.counter-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 30px;
+  width: 250px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   text-align: center;
+  transition: transform 0.3s ease;
 }
-
-.widget h2 {
-  font-size: 18px;
-  color: #57606f;
+.counter-card:hover {
+  transform: translateY(-8px);
+}
+.counter-card h2 {
+  font-size: 3rem;
+  color: #1a237e;
   margin-bottom: 10px;
 }
-
-.widget p {
-  font-size: 36px;
-  font-weight: bold;
-  color: #1e90ff;
-}
-
-.widget:hover {
-  transform: translateY(-5px);
-}
-
-.bottom-links {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-}
-.widget canvas {
-  max-width: 250px;
-  max-height: 250px;
-  margin: auto;
-  display: block;
-}
-
-.dashboard-widgets {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 30px;
-  padding: 20px;
-}
-
-.widget {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-.dashboard-counters {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 30px;
-}
-
-.dashboard-counters {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 30px;
-  margin-top: 40px;
-  padding: 0 20px;
-}
-
-.counter-card {
-  background: linear-gradient(135deg, rgba(79,172,254,0.8), rgba(0,242,254,0.8));
-  backdrop-filter: blur(8px);
-  padding: 30px 40px;
-  border-radius: 20px;
-  color: #fff;
-  text-align: center;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
-  transition: all 0.3s ease;
-  min-width: 220px;
-  flex: 1;
-  max-width: 300px;
-  position: relative;
-  overflow: hidden;
-}
-
-.counter-card::before {
-  content: '';
-  position: absolute;
-  top: -30%;
-  left: -30%;
-  width: 160%;
-  height: 160%;
-  background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
-  transform: rotate(45deg);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.counter-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
-}
-
-.counter-card h2 {
-  font-size: 3.2em;
-  margin: 0;
-  z-index: 1;
-  position: relative;
-}
-
 .counter-card p {
-  font-size: 1.2em;
-  margin-top: 10px;
-  opacity: 0.95;
-  font-weight: 500;
-  z-index: 1;
-  position: relative;
+  font-size: 1.2rem;
+  color: #444;
 }
-h1 {
-  display: block;
-  margin: 0 auto;
-  text-align: center;
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+  .dashboard-counters {
+    margin-left: 0;
+    justify-content: center;
+  }
+}
+/* Profile Avatar */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+.profile-info strong {
+  color: #333;
+}
+.profile-info small {
+  color: #777;
+}
+
+/* FontAwesome Icon Spacing */
+.nav-links a i,
+.bottom-links a i {
+  margin-right: 10px;
+}
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.participant-card {
+  background: #f0f4ff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #4a90e2;
+  border-radius: 8px;
 }
 

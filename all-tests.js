@@ -5,7 +5,8 @@ import {
   getDocs,
   doc,
   getDoc,
-  collectionGroup
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { firebaseConfig } from './firebase-config.js';
 
@@ -30,7 +31,7 @@ async function loadTests() {
       <h3>${data.title}</h3>
       <p><strong>Duration:</strong> ${data.duration} mins</p>
       <p><strong>Total Questions:</strong> ${data.totalQuestions || data.questions?.length || 0}</p>
-      <button data-id="${docSnap.id}" class="view-participants">View Participants</button>
+      <button data-id="${docSnap.id}" data-title="${data.title}" class="view-participants">View Participants</button>
     `;
     testList.appendChild(card);
   });
@@ -38,31 +39,63 @@ async function loadTests() {
   document.querySelectorAll(".view-participants").forEach(button => {
     button.addEventListener("click", (e) => {
       const testId = e.target.getAttribute("data-id");
-      showParticipants(testId);
+      const testTitle = e.target.getAttribute("data-title");
+      showParticipants(testId, testTitle);
     });
   });
 }
 
-async function showParticipants(testId) {
-  participantList.innerHTML = "<p>Loading...</p>";
-  document.getElementById("participantModal").style.display = "block";
+async function showParticipants(testId, testTitle) {
+  try {
+    participantList.innerHTML = "<p>Loading...</p>";
+    document.getElementById("participantModal").style.display = "flex";
+    document.getElementById("modalTitle").innerText = `Participants - ${testTitle}`;
 
-  const resultsRef = collection(db, `tests/${testId}/results`);
-  const resultsSnap = await getDocs(resultsRef);
+    const q = query(collection(db, "results"), where("testId", "==", testId));
+    const snap = await getDocs(q);
 
-  if (resultsSnap.empty) {
-    participantList.innerHTML = "<p>No participants found.</p>";
-    return;
+    if (snap.empty) {
+      participantList.innerHTML = "<p>No participants found.</p>";
+      return;
+    }
+
+    let html = "";
+
+    for (const docSnap of snap.docs) {
+      const data = docSnap.data();
+      const uid = data.uid;
+      const score = data.score || "0";
+      const takenAt = data.takenAt?.seconds
+        ? new Date(data.takenAt.seconds * 1000).toLocaleString()
+        : "Unknown Date";
+
+      // Fetch name from users collection
+      let name = "Unknown";
+      try {
+        const userRef = doc(db, "users", uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          name = userSnap.data().name || "No Name";
+        }
+      } catch (e) {
+        console.warn(`Failed to get name for UID: ${uid}`, e);
+      }
+
+      html += `
+        <div class="participant-card">
+          <h4>👤 ${name}</h4>
+          <p>📝 Score: ${score}</p>
+          <p>📅 Taken At: ${takenAt}</p>
+        </div>
+      `;
+    }
+
+    participantList.innerHTML = html;
+
+  } catch (err) {
+    console.error("Error fetching participants:", err);
+    participantList.innerHTML = "<p>Error loading participants.</p>";
   }
-
-  let html = "<ul>";
-  resultsSnap.forEach(doc => {
-    const data = doc.data();
-    html += `<li><strong>${data.username}</strong>: ${data.score}</li>`;
-  });
-  html += "</ul>";
-
-  participantList.innerHTML = html;
 }
 
 loadTests();

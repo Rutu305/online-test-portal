@@ -12,15 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const testsSnapshot = await getDocs(collection(db, "tests"));
             const studentsSnapshot = await getDocs(collection(db, "users"));
             
-            let submissionCount = 0;
-
-            const testPromises = testsSnapshot.docs.map(docSnap => {
-              return getDocs(collection(db, `tests/${docSnap.id}/results`)).then(resSnap => {
-                submissionCount += resSnap.size;
-              });
-            });
-
-            await Promise.all(testPromises);
+           
+// Fetch all submissions
+const submissionsSnapshot = await getDocs(collection(db, "submissions"));
+const submissionCount = submissionsSnapshot.size;
+ 
 
             animateCounter("testCount", testsSnapshot.size);
             animateCounter("studentCount", studentsSnapshot.size);

@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="admin.css" />
   <script type="module" src="admin.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
 </head>
 <body>
@@ -15,19 +16,30 @@
   <div class="hamburger" id="hamburger">&#9776;</div>
 
   <!-- Sidebar -->
-  <aside class="sidebar hide" id="sidebar">
-    <div class="logo">🎓 Test Portal</div>
-    <nav class="nav-links">
-      <a href="#" id="dashboardBtn">🏠 Dashboard</a>
-      <a href="test-form.html" id="createTestBtn">📋 Create Test</a>
-      <a href="all-tests.html" id="allTestsBtn">📚 All Tests</a>
-      <a href="login.html" id="signOutBtn">🔓 Sign Out</a>
-    </nav>
-    <div class="bottom-links">
-      <a href="#">💬 Feedback</a>
-      <a href="#">📩 Messages</a>
+<aside class="sidebar hide" id="sidebar">
+  <br>
+  <br>
+  <div class="profile">
+    <img src="https://i.pravatar.cc/100?img=12" alt="Admin Avatar" />
+    <div class="profile-info">
+      <strong>Admin</strong>
+      <small>admin@test.com</small>
     </div>
-  </aside>
+  </div>
+
+  <nav class="nav-links">
+    <a href="#" id="dashboardBtn"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="test-form.html" id="createTestBtn"><i class="fas fa-clipboard-list"></i> Create Test</a>
+    <a href="all-tests.html" id="allTestsBtn"><i class="fas fa-book"></i> All Tests</a>
+    <a href="login.html" id="signOutBtn"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+  </nav>
+
+  <div class="bottom-links">
+    
+    
+  </div>
+</aside>
+
 
   <!-- Main Content -->
    <h1 >    Admin panel</h1>

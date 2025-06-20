@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f8fbff, #e3f2fd);
+      margin: 0;
+      padding: 30px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0d47a1;
+      margin-bottom: 40px;
+    }
+
+    .results-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .result-card {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 25px 30px;
+      width: 300px;
+      transition: 0.3s ease;
+      border-left: 6px solid #1976d2;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .result-card h3 {
+      color: #1976d2;
+      margin: 0 0 10px;
+    }
+
+    .result-card p {
+      margin: 6px 0;
+      font-size: 15px;
+    }
+
+    .no-results {
+      text-align: center;
+      font-size: 18px;
+      color: #777;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+ <!-- Back to Homepage Link (Top) -->
+<div style="text-align: left; margin-bottom: 20px;">
+  <a href="student.html" style="color: #1976d2; font-weight: bold; text-decoration: none;">← Back to Homepage</a>
+</div>
+  <h1>📊 My Test Results</h1>
+  <div class="results-container" id="resultsContainer">
+    <div class="no-results" id="noResults">Loading your results...</div>
+  </div>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { firebaseConfig } from './firebase-config.js';
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const resultsContainer = document.getElementById("resultsContainer");
+  const noResultsText = document.getElementById("noResults");
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      console.log("Current user UID:", user.uid);
+
+      const q = query(collection(db, "results"), where("uid", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        noResultsText.textContent = "No results found.";
+        return;
+      }
+
+      noResultsText.style.display = "none";
+
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        console.log("Fetched result:", data);
+
+        const card = document.createElement("div");
+        card.className = "result-card";
+        card.innerHTML = `
+          <h3>${data.testTitle}</h3>
+          <p><strong>Score:</strong> ${data.correct} / ${data.total}</p>
+          <p><strong>Percentage:</strong> ${data.score}%</p>
+          <p><strong>Date:</strong> ${
+            data.takenAt?.seconds
+              ? new Date(data.takenAt.seconds * 1000).toLocaleString()
+              : "N/A"
+          }</p>
+        `;
+        resultsContainer.appendChild(card);
+      });
+
+    } else {
+      alert("Please log in to view your results.");
+      window.location.href = "login.html";
+    }
+  });
+</script>
