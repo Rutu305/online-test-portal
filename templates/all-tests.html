@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Tests - Admin</title>
+  <link rel="stylesheet" href="/static/css/all-tests.css" />
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      width: 90%;
+      max-width: 550px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <a href="/admin" class="back-button">← Back to Dashboard</a>
+
+  <h1>📚 All Examination Tests</h1>
+  
+  <div class="dashboard-cards" id="testList">
+    <p>Loading tests...</p>
+  </div>
+
+  <!-- Modal for Participants -->
+  <div id="participantModal" class="modal-overlay">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 id="modalTitle" style="color: #2c3e50; margin: 0;">Participants</h3>
+        <button id="closeModalBtn" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #888;">&times;</button>
+      </div>
+      <div id="participantList"></div>
+    </div>
+  </div>
+
+  <script src="/static/js/all-tests.js"></script>
+</body>
+</html>

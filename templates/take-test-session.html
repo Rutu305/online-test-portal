@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Examination Session - TestPortal</title>
+  <link rel="stylesheet" href="/static/css/take-test-session.css" />
+  <style>
+    .timer-box {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1976d2;
+      text-align: center;
+      margin: 15px 0 25px;
+      padding: 10px;
+      background: #e8f4fd;
+      border-radius: 8px;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #navigation {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+    #navigation button {
+      padding: 12px 18px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    #prev-btn, #next-btn {
+      background: #e0e0e0;
+      color: #333;
+    }
+    #prev-btn:hover:not(:disabled), #next-btn:hover:not(:disabled) {
+      background: #cfd8dc;
+    }
+    #prev-btn:disabled, #next-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    #save-btn {
+      background: #0288d1;
+      color: white;
+    }
+    #save-btn:hover {
+      background: #0277bd;
+    }
+    #submit-btn {
+      background: #2e7d32;
+      color: white;
+    }
+    #submit-btn:hover {
+      background: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="test-container">
+    <h1 id="test-title">Loading examination...</h1>
+    <div id="timer" class="timer-box">⏰ Time Left: --:--</div>
+    
+    <div id="question-box"></div>
+
+    <div id="navigation">
+      <button id="prev-btn">⏮ Previous</button>
+      <button id="save-btn">📝 Save Answer</button>
+      <button id="next-btn">Next ⏭</button>
+      <button id="submit-btn">✅ Submit Test</button>
+    </div>
+  </div>
+
+  <script src="/static/js/take-test-session.js"></script>
+</body>
+</html>

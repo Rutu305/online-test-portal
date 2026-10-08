@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup with Role</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <form id="signupForm">
+    <input type="email" id="email" placeholder="Email" required><br><br>
+    <input type="password" id="password" placeholder="Password" required><br><br>
+    
+    <label for="role">Select Role:</label><br>
+    <select id="role" required>
+      <option value="">-- Select Role --</option>
+      <option value="admin">Admin</option>
+      <option value="user">User</option>
+      <option value="guest">Guest</option>
+    </select><br><br>
+    
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <script type="module" src="signup.js"></script>
+</body>
+</html>

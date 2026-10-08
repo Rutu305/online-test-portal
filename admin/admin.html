@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="admin.css" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+    }
+    .question-block {
+      background: #f1f1f1;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .question-block input {
+      margin-top: 5px;
+    }
+    .close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Welcome Admin</h1>
+    <button id="openTestModal">Create New Test</button>
+
+    <!-- Modal -->
+    <div id="testModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Create Test</h2>
+        <form id="createTestForm">
+          <input type="text" id="testTitle" placeholder="Test Title" required />
+          <input type="number" id="testDuration" placeholder="Duration (minutes)" required />
+          <input type="number" id="totalQuestions" placeholder="Total Questions" required />
+
+          <div id="questionsContainer"></div>
+
+          <button type="button" id="addQuestionBtn">Add Question</button>
+          <button type="submit">Save Test</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

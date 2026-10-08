@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Results - TestPortal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f8fbff, #e3f2fd);
+      margin: 0;
+      padding: 30px 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0d47a1;
+      margin-bottom: 40px;
+    }
+
+    .results-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .result-card {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 25px 30px;
+      width: 290px;
+      transition: 0.3s ease;
+      border-left: 6px solid #1976d2;
+      box-sizing: border-box;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .result-card h3 {
+      color: #1976d2;
+      margin: 0 0 10px;
+      font-size: 1.15rem;
+    }
+
+    .result-card p {
+      margin: 6px 0;
+      font-size: 15px;
+    }
+
+    .no-results {
+      text-align: center;
+      font-size: 18px;
+      color: #777;
+      margin-top: 50px;
+      width: 100%;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #1976d2;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <a href="/student" class="back-link">← Back to Dashboard</a>
+  </div>
+  
+  <h1>📊 My Test Results</h1>
+  
+  <div class="results-container" id="resultsContainer">
+    <div class="no-results" id="noResults">Loading your results...</div>
+  </div>
+
+  <script src="/static/js/result-database.js"></script>
+</body>
+</html>

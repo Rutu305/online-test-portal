@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Dashboard - TestPortal</title>
+  <link rel="stylesheet" href="/static/css/student.css" />
+  <script src="/static/js/chart.min.js"></script>
+</head>
+<body>
+  <!-- Hamburger Icon -->
+  <div class="hamburger" onclick="toggleSidebar()">☰</div>
+
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div style="margin-top: 35px;"></div>
+      <div class="nav-links">
+        <a href="#home" onclick="navigateTo('home')">🏠 Home</a>
+        <a href="/take-test" onclick="navigateTo('tests')">📄 My Tests</a>
+        <a href="/result-database" onclick="navigateTo('results')">📊 Results Database</a>
+        <a href="/my-account" onclick="navigateTo('account')">👤 My Account</a>
+      </div>
+      <div class="bottom-links">
+        <a href="/logout" onclick="signOut()">🔓 Sign Out</a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+      <h2 class="dashboard-title">Loading dashboard...</h2>
+    </div>
+  </div>
+
+  <script src="/static/js/student.js"></script>
+</body>
+</html>

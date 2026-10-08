@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Test</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, button { display: block; margin: 10px 0; padding: 8px; width: 100%; max-width: 500px; }
+    .question-block { border: 1px solid #ccc; padding: 10px; margin-top: 20px; background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h2>Create New Test</h2>
+  <form id="createTestForm">
+    <input type="text" id="testTitle" placeholder="Test Title" required />
+    <input type="number" id="testDuration" placeholder="Duration (minutes)" required />
+    <input type="number" id="totalQuestions" placeholder="Total Questions" required />
+
+    <div id="questionsContainer"></div>
+
+    <button type="button" id="addQuestionBtn">Add Question</button>
+    <button type="submit">Save Test</button>
+  </form>
+
+  <script type="module">
+    import { db } from './firebase-conf.js';
+    import {
+      collection,
+      addDoc,
+      doc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-lite.js";
+
+    const form = document.getElementById('createTestForm');
+    const questionsContainer = document.getElementById('questionsContainer');
+    const addQuestionBtn = document.getElementById('addQuestionBtn');
+
+    // Add question block
+    function addQuestion() {
+      const questionIndex = questionsContainer.children.length + 1;
+      const div = document.createElement('div');
+      div.classList.add('question-block');
+      div.innerHTML = `
+        <h4>Question ${questionIndex}</h4>
+        <input type="text" class="questionText" placeholder="Enter Question" required />
+        <input type="text" class="option1" placeholder="Option 1" required />
+        <input type="text" class="option2" placeholder="Option 2" required />
+        <input type="text" class="option3" placeholder="Option 3" required />
+        <input type="text" class="option4" placeholder="Option 4" required />
+        <input type="number" class="correctAnswer" placeholder="Correct Option Number (1-4)" min="1" max="4" required />
+      `;
+      questionsContainer.appendChild(div);
+    }
+
+    addQuestionBtn.addEventListener('click', addQuestion);
+
+    // Save test to Firestore
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('testTitle').value;
+      const duration = parseInt(document.getElementById('testDuration').value);
+      const totalQuestions = parseInt(document.getElementById('totalQuestions').value);
+
+      const questionBlocks = document.querySelectorAll('.question-block');
+      const questions = [];
+
+      questionBlocks.forEach(block => {
+        const questionText = block.querySelector('.questionText').value;
+        const options = [
+          block.querySelector('.option1').value,
+          block.querySelector('.option2').value,
+          block.querySelector('.option3').value,
+          block.querySelector('.option4').value
+        ];
+        const correctAnswerIndex = parseInt(block.querySelector('.correctAnswer').value) - 1;
+
+        questions.push({ questionText, options, correctAnswerIndex });
+      });
+
+      try {
+        const testDocRef = await addDoc(collection(db, 'tests'), {
+          title,
+          duration,
+          totalQuestions
+        });
+
+        // Save questions inside the test document as a subcollection
+        const questionsRef = collection(db, `tests/${testDocRef.id}/questions`);
+        for (const question of questions) {
+          await addDoc(questionsRef, question);
+        }
+
+        alert("Test and questions saved successfully!");
+        form.reset();
+        questionsContainer.innerHTML = "";
+      } catch (error) {
+        console.error("Error saving test:", error);
+        alert("Error saving test. Check the console.");
+      }
+    });
+  </script>
+</body>
+</html>

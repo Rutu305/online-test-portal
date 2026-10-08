@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Test - TestPortal Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #ffffff);
+      margin: 0;
+      padding: 40px 20px;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1976d2;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      box-sizing: border-box;
+      transition: 0.2s border-color, 0.2s box-shadow;
+    }
+
+    input:focus {
+      border-color: #1976d2;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+      background-color: #f8fbff;
+    }
+
+    .question-block {
+      background: #f8faff;
+      border-left: 5px solid #1976d2;
+      padding: 20px;
+      margin-bottom: 22px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    .question-block h4 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #1976d2;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    button {
+      padding: 12px 22px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s all;
+      margin-top: 10px;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #4F46E5;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .back-btn:hover {
+      background-color: #3730A3;
+    }
+
+    #addQuestionBtn {
+      background-color: #10b981;
+      color: white;
+      margin-right: 12px;
+      margin-bottom: 20px;
+    }
+
+    #addQuestionBtn:hover {
+      background-color: #059669;
+    }
+
+    button[type="submit"] {
+      background-color: #1976d2;
+      color: white;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0d47a1;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        padding: 20px;
+      }
+      .back-btn {
+        position: static;
+        margin-bottom: 20px;
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button id="backToDashboardBtn" class="back-btn">
+    ← Back to Dashboard
+  </button>
+
+  <h2>Create New Examination Test</h2>
+  <form id="createTestForm">
+    <label style="font-weight:600;font-size:14px;color:#444;">Test Title:</label>
+    <input type="text" id="testTitle" placeholder="e.g. Data Structures and Algorithms Quiz" required />
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+      <div>
+        <label style="font-weight:600;font-size:14px;color:#444;">Duration (in minutes):</label>
+        <input type="number" id="testDuration" placeholder="e.g. 15" min="1" max="180" value="10" required />
+      </div>
+      <div>
+        <label style="font-weight:600;font-size:14px;color:#444;">Total Questions:</label>
+        <input type="number" id="totalQuestions" placeholder="Auto-calculated" readonly style="background:#f1f5f9;" />
+      </div>
+    </div>
+    
+    <div id="questionsContainer"></div>
+
+    <div style="display:flex;gap:15px;margin-top:20px;">
+      <button type="button" id="addQuestionBtn">➕ Add Another Question</button>
+      <button type="submit">💾 Save Test to Portal</button>
+    </div>
+  </form>
+
+  <script src="/static/js/test-form.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - TestPortal</title>
+  <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+
+  <div class="login-container">
+    <form id="loginForm" novalidate>
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Enter your credentials to access your portal</p>
+
+      <!-- Alert Notification Banner -->
+      <div id="loginAlert" class="login-alert" role="alert">
+        <span id="alertIcon">⚠️</span>
+        <span id="alertMessage"></span>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          placeholder="name@test.com" 
+          autocomplete="email"
+          required 
+        />
+        <span id="emailError" class="field-error"></span>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <label for="password" style="margin-bottom:0;">Password</label>
+          <a href="#" id="showReset" style="font-size: 12px; color: #2563eb; text-decoration: none;">Forgot password?</a>
+        </div>
+        <div class="password-wrapper">
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Enter your password" 
+            autocomplete="current-password"
+            required 
+          />
+          <button type="button" id="togglePasswordBtn" class="toggle-password-btn" aria-label="Toggle password visibility">
+            👁️
+          </button>
+        </div>
+        <span id="passwordError" class="field-error"></span>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" id="submitBtn">
+        <span class="spinner" id="btnSpinner" style="display: none;"></span>
+        <span id="btnText">Log In</span>
+      </button>
+
+      <!-- Reset Password Box -->
+      <div id="resetSection" style="display:none; margin-top: 18px; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <p style="font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 8px;">Reset Password</p>
+        <div class="form-group" style="margin-bottom: 10px;">
+          <input type="email" id="resetEmail" placeholder="Enter your registered email" style="padding: 10px;" />
+          <span id="resetEmailError" class="field-error" style="min-height: 14px;"></span>
+        </div>
+        <button type="button" id="resetBtn" style="padding: 9px; font-size: 13px; background: #0284c7; width: 100%; border: none; color: white; border-radius: 6px; cursor: pointer; font-weight: 600;">
+          Send Reset Link
+        </button>
+        <p id="resetMsg" style="font-size: 12px; margin-top: 8px; text-align: center;"></p>
+      </div>
+
+      <!-- Demo Accounts Quick Fill -->
+      <div class="demo-accounts">
+        <div class="demo-title">
+          <span>⚡ One-Click Demo Login:</span>
+        </div>
+        <div class="demo-buttons">
+          <button type="button" class="demo-pill" id="demoStudentBtn">
+            🎓 Student
+          </button>
+          <button type="button" class="demo-pill" id="demoAdminBtn">
+            👤 Admin
+          </button>
+        </div>
+      </div>
+
+      <p class="signup-link">
+        Don't have an account? <a href="/signup">Sign up here</a>
+      </p>
+    </form>
+  </div>
+
+  <script src="/static/js/login.js"></script>
+</body>
+</html>
